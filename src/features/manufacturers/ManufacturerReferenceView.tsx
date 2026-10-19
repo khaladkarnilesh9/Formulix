@@ -1,0 +1,74 @@
+import {useEffect,useState} from 'react';
+import {Link,useSearchParams} from 'react-router-dom';
+import {Building2,Factory,Search,Bookmark,ExternalLink,Leaf,Package,Database,ShieldCheck,MapPin,Globe2,MoreVertical,Layers,Tag,FlaskConical,ChevronLeft,ChevronRight,ArrowRight,RotateCcw,FileText} from 'lucide-react';
+import {useServerSearch,useSearchFacets} from '../../services/searchApi';
+import {useSharedRepositoryListener} from '../../services/dataService';
+import {getDatabaseCatalog} from '../../services/formulationApi';
+import {sourceHref} from '../../services/presentation';
+import {useWorkspaceStore} from '../../stores/workspaceStore';
+import {CatalogStatus} from '../../components/common/CatalogStatus';
+import {SearchStatus} from '../../components/common/SearchStatus';
+import {EmptyState} from '../../components/common/IntelligenceUI';
+import {companyLogoSources} from './companyLogoSources';
+import type {Manufacturer} from '../../types';
+
+interface Props {initialManufacturerId?:string;onSelectProduct:(id:string)=>void;}
+interface Profile {company:Manufacturer;indexedProducts:number;formulationCount:number;declaredPortfolio:number|null;}
+interface Row {id?:string;name?:string;brandName?:string;activeIngredient?:string;country?:string;formulationType?:string;recordKind?:string;status?:string;productCount?:number;activeIngredients?:string[];formulationTypes?:string[];markets?:string[];casNumber?:string;chemicalClass?:string;formulationCount?:number;brandCount?:number;evidence?:string;structureUrl?:string;formulations?:number;brands?:number;products?:number;registrationReferences?:number;registrationNumber?:string;authority?:string;source?:string;sourceUrl?:string;productId?:string;}
+const recorded=(value?:string|null)=>value?.trim()||'Not recorded';
+const tabs=[{key:'formulations',label:'Formulations',icon:Layers},{key:'brands',label:'Commercial Brands',icon:Tag},{key:'ingredients',label:'Active Ingredients',icon:FlaskConical},{key:'markets',label:'Markets & Regions',icon:Globe2},{key:'regulatory',label:'Regulatory Info',icon:FileText}];
+
+function CompanyLogo({company,large=false}:{company:Manufacturer;large?:boolean}) {
+  const [failed,setFailed]=useState(false);
+  const reviewed=companyLogoSources[company.name.trim().toLowerCase()];
+  const stored=company.logoUrl?.startsWith('/api/v1/manufacturers/')?company.logoUrl:sourceHref(company.logoUrl);
+  const url=stored||reviewed?.url;
+  useEffect(()=>setFailed(false),[url]);
+  return <span className={`md-logo${large?' md-logo-large':''}`} title={stored?recorded(company.logoAttribution):reviewed?.attribution||'Company logo not recorded'}>{url&&!failed?<img src={url} alt={`${company.name} company logo`} loading="lazy" onError={()=>setFailed(true)}/>:<Factory size={large?32:24}/>}</span>;
+}
+
+export function ManufacturerDirectoryView({initialManufacturerId,onSelectProduct}:Props) {
+  useSharedRepositoryListener();const [params,setParams]=useSearchParams();const facets=useSearchFacets();
+  const {bookmarkedManufacturerIds,toggleBookmarkedManufacturer}=useWorkspaceStore();
+  const q=params.get('q')||'';const country=params.get('country')||'All';const sector=params.get('sector')||'All';
+  const rawPage=Number(params.get('page'));const page=Number.isFinite(rawPage)?Math.max(1,Math.floor(rawPage)||1):1;
+  const activeTab=tabs.some(tab=>tab.key===params.get('tab'))?params.get('tab')!:'formulations';
+  const key=params.get('manufacturer')||(!initialManufacturerId?.startsWith('mfg-')?initialManufacturerId:undefined);
+  const search=useServerSearch<Manufacturer>('manufacturers',{q,country,category:sector},page,50);
+  const local=search.results.find(company=>company.id===key);
+  const update=(values:Record<string,string|null>,replace=true)=>{const next=new URLSearchParams(params);Object.entries(values).forEach(([key,value])=>{if(!value||value==='All')next.delete(key);else next.set(key,value);});setParams(next,{replace});};
+  const select=(company:Manufacturer)=>update({manufacturer:company.id,company:company.name,tab:null,recordPage:null},false);
+  useEffect(()=>{if(!key&&search.results[0])select(search.results[0]);},[key,search.results[0]?.id]);
+  const profile=useServerSearch<Profile>('manufacturerProfile',{manufacturerKey:key,companyName:local?.name||params.get('company')||undefined},1,1,!!key);
+  const data=profile.results[0];const company=data?.company||local;
+  const [recordPage,setRecordPage]=useState(1);useEffect(()=>setRecordPage(1),[key,activeTab]);
+  const records=useServerSearch<Row>('manufacturerRecords',{manufacturerKey:key,companyName:company?.name||params.get('company')||undefined,section:activeTab},recordPage,50,!!company);
+  const countries=Array.from(new Set(['All','Germany','Switzerland','United States','India','United Kingdom',...(facets?.manufacturerCountries??[])]));
+  const sectors=Array.from(new Set(['All',...Object.keys(facets?.categoryCounts??{}).filter(value=>value!=='Not recorded')]));
+  const site=sourceHref(company?.website);
+  const headers=activeTab==='formulations'?['Brand Name','Active Substance','Form Type','Country','Dossier']:activeTab==='brands'?['Brand','Record Type','Active Ingredients','Formulation Types','Markets','Details']:activeTab==='ingredients'?['Active Ingredient / Source Text','CAS','Classification','Formulations','Brands','Evidence']:activeTab==='markets'?['Commercial Market','Stored Products','Formulations','Brands','Registration References']:['Product','Registration Reference','Jurisdiction','Authority','Evidence / Publication','Source','Dossier'];
+  const pagination=(count:number,current:number,onPage:(page:number)=>void,label:string)=><div className="md-pagination"><span>{current} / {Math.max(1,Math.ceil(count/50))}</span><button title={`Previous ${label} page`} aria-label={`Previous ${label} page`} disabled={current<=1} onClick={()=>onPage(current-1)}><ChevronLeft size={16}/></button><button title={`Next ${label} page`} aria-label={`Next ${label} page`} disabled={current>=Math.ceil(count/50)} onClick={()=>onPage(current+1)}><ChevronRight size={16}/></button></div>;
+  return <div className="manufacturer-reference-page"><section className="md-hero"><img src="/assets/scientific/industry.jpg" alt=""/><div className="md-hero-veil"/><div className="md-hero-copy"><span>GLOBAL INTELLIGENCE</span><h1><span>Manufacturer</span> &amp; Formulator Directory</h1><p>Database companies and source-reported company names. Locations and roles require<br className="md-wide-break"/> verification.</p><div className="md-filters"><select aria-label="Manufacturer industry" value={sector} onChange={event=>update({sector:event.target.value,page:null})}>{sectors.map(value=><option key={value} value={value}>{value==='All'?'All industries':value}</option>)}</select><div aria-label="Manufacturer country filters">{countries.map(value=><button key={value} aria-pressed={country===value} onClick={()=>update({country:value,page:null})}>{value}</button>)}</div></div></div><div className="md-hexagons" aria-hidden="true">{[Factory,Globe2,Leaf,FlaskConical].map((Icon,index)=><span key={index}><Icon size={30}/></span>)}</div><div className="md-tagline">Global<br/>Manufacturers<br/>for a Safer<br/>Tomorrow<i/></div><details className="md-access"><summary><Database size={12}/>{getDatabaseCatalog().staffPreview?'Staff preview':'Catalog access'}</summary><div><CatalogStatus/></div></details></section>
+  <div className="md-workbench"><aside className="md-directory"><label className="md-search"><Search size={17}/><input type="search" aria-label="Search manufacturers" placeholder="Search companies, headquarters, or brands..." value={q} onChange={event=>update({q:event.target.value,page:null})}/></label>{(search.loading||search.error)&&<SearchStatus search={search}/>}
+    <div className="md-company-list">{search.results.map(mfg=><article className="md-company-card" data-selected={mfg.id===key} key={mfg.id}><button className="md-company-select" onClick={()=>select(mfg)} aria-label={`Select ${mfg.name}`}><CompanyLogo company={mfg}/><span><strong>{mfg.name}</strong><small><Building2 size={11}/>{mfg.productCount!=null?`${mfg.productCount.toLocaleString()} Declared portfolio`:`${(mfg.indexedCount??0).toLocaleString()} Indexed records`}<i/> {mfg.sector.join(', ')||'Sector not recorded'}</small></span></button><button className="md-bookmark" aria-label={`Save manufacturer ${mfg.name}`} aria-pressed={bookmarkedManufacturerIds.includes(mfg.id)} title="Save manufacturer" onClick={()=>toggleBookmarkedManufacturer(mfg.id,mfg.name)}><Bookmark size={15}/></button><span className="md-role">{mfg.role||'Source-reported'}</span></article>)}</div>
+    {!search.loading&&!search.error&&!search.count&&<EmptyState title="No matching manufacturers"/>}<div className="md-list-footer"><span>{search.count} companies</span>{pagination(search.count,page,next=>update({page:String(next)}),'manufacturer')}</div><button className="md-reset" onClick={()=>update({q:null,country:null,sector:null,page:null})}><RotateCcw size={13}/>Reset filters</button>
+  </aside><section className="md-profile" aria-label="Company profile">{company?<><div className="md-profile-head"><CompanyLogo company={company} large/><div><span className="md-established">ESTABLISHED {company.founded||'Not recorded'} <b> / {company.role||'Role not recorded'}</b></span><h2>{company.name}</h2><small><Globe2 size={13}/>{company.headquarters||recorded(company.country)}</small></div><div className="md-profile-actions">{site?<a className="md-button md-primary" href={site} target="_blank" rel="noopener noreferrer">Visit Corporate Site<ExternalLink size={13}/></a>:<button className="md-button" disabled title="Official company website not recorded">Corporate site not recorded</button>}<details><summary title="More company actions" aria-label="More company actions"><MoreVertical size={18}/></summary><div><button onClick={()=>toggleBookmarkedManufacturer(company.id,company.name)}><Bookmark size={14}/> {bookmarkedManufacturerIds.includes(company.id)?'Remove saved company':'Save company'}</button><Link to={`/brands?manufacturer=${encodeURIComponent(company.name)}`}><Tag size={14}/>Brand Intelligence</Link></div></details></div></div>
+    <p className="md-description">{company.overview||'Company description not recorded.'}{company.recordKind==='Source-reported company'&&<span>Source-reported company; identity and location unverified.</span>}</p>{profile.error&&<SearchStatus search={profile}/>}
+    <div className="md-metrics">{[{label:'Business sector',value:company.sector.join(', ')||'Not recorded',icon:Leaf,tone:'green'},{label:'Indexed products',value:data?.indexedProducts??'--',icon:Package,tone:'blue'},{label:'Declared portfolio size',value:data?.declaredPortfolio??'Not recorded',icon:Database,tone:'cyan'},{label:'Compliance standards',value:company.complianceCertifications.join(', ')||'Not recorded',icon:ShieldCheck,tone:'pink'},{label:'Country',value:recorded(company.country),icon:MapPin,tone:'violet'}].map(metric=><div key={metric.label} data-tone={metric.tone}><metric.icon size={23}/><span><strong>{typeof metric.value==='number'?metric.value.toLocaleString():metric.value}</strong><small>{metric.label}</small></span></div>)}</div>
+    <div className="md-classification"><small>Company classification</small><span>{company.role||'Not recorded'}</span></div><div className="md-tabs" role="tablist" aria-label="Manufacturer profile tabs">{tabs.map(tab=><button key={tab.key} id={`md-tab-${tab.key}`} aria-controls="md-records" role="tab" aria-selected={activeTab===tab.key} onClick={()=>update({tab:tab.key},false)}><tab.icon size={15}/>{tab.label}</button>)}</div>
+    <section className="md-records" id="md-records" role="tabpanel" aria-labelledby={`md-tab-${activeTab}`}><header><div><h3>{tabs.find(tab=>tab.key===activeTab)?.label.toUpperCase()} BY {company.name.toUpperCase()}</h3><p>{records.count.toLocaleString()} matching records</p></div><div><small>{records.results.length} entries shown</small>{pagination(records.count,recordPage,setRecordPage,'company record')}</div></header>{(records.loading||records.error)&&<SearchStatus search={records}/>}
+    {!records.loading&&!records.error&&!records.count&&<EmptyState title="No eligible associated records"/>}{!!records.results.length&&<div className="md-table-scroll"><table><thead><tr>{headers.map(label=><th key={label}>{label}</th>)}</tr></thead><tbody>{records.results.map((row,index)=><tr key={row.id||`${activeTab}-${index}`}>
+      {activeTab==='formulations'?<>
+        <td><strong>{row.brandName}</strong></td><td>{recorded(row.activeIngredient)}</td><td>{recorded(row.formulationType)}</td><td>{recorded(row.country)}</td><td><button onClick={()=>row.id&&onSelectProduct(row.id)}>Inspect<ArrowRight size={12}/></button></td>
+      </>:activeTab==='brands'?<>
+        <td><strong>{row.name}</strong></td><td>{row.recordKind}{row.status&&<small>{row.status}</small>}</td><td>{row.activeIngredients?.join('; ')||'Not recorded'}</td><td>{row.formulationTypes?.join('; ')||'Not recorded'}</td><td>{row.markets?.join('; ')||'Not recorded'}</td><td><Link to={`/brands?manufacturer=${encodeURIComponent(company.name)}&q=${encodeURIComponent(row.name||'')}`}>View Details<ArrowRight size={12}/></Link></td>
+      </>:activeTab==='ingredients'?<>
+        <td>{row.structureUrl?.startsWith('/ingredients?')?<Link to={row.structureUrl} title="Open recorded chemical identity">{row.name}<ArrowRight size={12}/></Link>:<strong>{row.name}</strong>}</td><td>{recorded(row.casNumber)}</td><td>{recorded(row.chemicalClass)}</td><td>{row.formulationCount}</td><td>{row.brandCount}</td><td>{row.evidence}</td>
+      </>:activeTab==='markets'?<>
+        <td><strong>{row.name}</strong></td><td>{row.products}</td><td>{row.formulations}</td><td>{row.brands}</td><td>{row.registrationReferences}</td>
+      </>:<>
+        <td><strong>{row.name}</strong></td><td>{row.registrationNumber}</td><td>{row.country}</td><td>{row.authority}</td><td>{row.evidence}<small>{row.status}</small></td><td>{sourceHref(row.sourceUrl)?<a href={sourceHref(row.sourceUrl)} target="_blank" rel="noopener noreferrer">{row.source||'Recorded source'}<ExternalLink size={12}/></a>:row.source||'Not recorded'}</td><td><button onClick={()=>row.productId&&onSelectProduct(row.productId)}>Inspect<ArrowRight size={12}/></button></td>
+      </>}
+    </tr>)}</tbody></table></div>}{activeTab==='markets'&&<p className="md-evidence-note">Commercial markets are not headquarters or manufacturing locations.</p>}{activeTab==='ingredients'&&<p className="md-evidence-note">Mixture and concentration source text is not a verified chemical identity.</p>}</section>
+  </>:<><SearchStatus search={profile}/>{!profile.loading&&!search.loading&&<EmptyState title={key?'Manufacturer unavailable':'Select a manufacturer'}/>}</>}</section></div></div>;
+}

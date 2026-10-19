@@ -1,0 +1,1 @@
+export {ManufacturerDirectoryView} from './ManufacturerReferenceView';

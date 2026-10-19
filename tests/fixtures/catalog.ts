@@ -1,0 +1,22 @@
+export const form = { id: 'qa-form', name: 'QA Uploaded Brand SC', category: 'Agrochemical', formulationType: 'SC',
+  publishStatus: 'Draft', verificationStatus: 'Imported unverified', verificationEvidence: 'Imported unverified',
+  intendedApplication: 'Armyworm', targetIndustry: 'Agrochemical', sourceReference: 'QA.xlsx / Sheet / row 2',
+  composition: [], manufacturingInfo: { processOverview: '', mixingSequence: [], processingConditions: [], equipment: [], qcParameters: [] },
+  properties: { ph: '6.5 - 7.5', density: '1.08 - 1.12 g/mL', viscosity: '400 - 600 cP', particleSize: '', stability: '', shelfLife: '', appearance: '' },
+  patentReferences: [], commercialProductIds: [], marketData: { Market: 'India', 'Company Name': 'QA Company',
+    'Active Ingredient & % (w/w)': 'A 20% + B 8% w/w', 'EPA / CIBRC Registration No.': 'QA-REG-001' } };
+export const product = { id: 'formulation-product:qa-form', formulationId: form.id, brandName: form.name, genericName: '',
+  activeIngredient: 'A 20% + B 8% w/w', casNumber: '', manufacturerId: 'qa-company', manufacturerName: 'QA Company',
+  category: 'Agrochemical', formulationType: 'SC', strength: 'A 20% + B 8% w/w', country: 'India',
+  registrationStatus: 'Unverified', registrationNumber: 'QA-REG-001', regulatoryAuthority: 'Not recorded', dataSource: form.sourceReference,
+  lastVerifiedDate: '', verificationEvidence: 'Imported unverified', description: 'Armyworm', indicationsOrPests: ['Armyworm'],
+  patentIds: [], documentIds: [], composition: [], specs: { ph: form.properties.ph, density: form.properties.density },
+  publishStatus: 'Draft', recordKind: 'Formulation listing', marketData: form.marketData };
+export const snapshot = { products: [product], formulations: [form], ingredients: [], documents: [], staffPreview: true,
+  session: { authenticated: true, staff: true, canPreview: true, username: 'qa-staff' },
+  manufacturers: [{ id: 'qa-company', name: 'QA Company', country: 'Not recorded', headquarters: '', founded: null, sector: [],
+    productCategories: ['Agrochemical'], productCount: 1, website: '', brandPortfolio: [form.name], role: 'Manufacturer', overview: '', complianceCertifications: [] }],
+  regulatoryRecords: [{ id: 'qa-reference', productId: product.id, productName: form.name, activeIngredient: product.activeIngredient,
+    registrationNumber: 'QA-REG-001', regulatoryAuthority: 'Not recorded', country: 'India', approvalStatus: 'Unverified',
+    registrationHolder: 'QA Company', approvalDate: '', expiryDate: '', sourceDocument: form.sourceReference, lastVerifiedDate: '', officialLink: '' }],
+  publicationCounts: { Draft: 1, Published: 0 }, databaseCounts: { formulations: 1, products: 0 } };

@@ -1,0 +1,13 @@
+Django>=5.2,<5.3
+djangorestframework>=3.16,<3.18
+django-filter>=25,<27
+drf-spectacular>=0.28,<0.30
+django-cors-headers>=4.7,<5
+psycopg[binary]>=3.2,<4
+python-dotenv>=1,<2
+openpyxl>=3.1,<4
+Pillow>=11,<13
+defusedxml>=0.7,<1
+pytest>=8,<10
+pytest-django>=4.9,<5
+ruff>=0.12,<1

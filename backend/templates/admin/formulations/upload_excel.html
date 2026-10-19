@@ -1,0 +1,16 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<p>Spreadsheet values are source-reported and unverified. Imports create drafts; publication does not verify the scientific claims. Duplicate rows across company and master sheets are skipped.</p>
+{% if preview %}
+<h2>{{ preview.filename }} / {{ preview.market }}</h2>
+<p>{{ preview.new_count }} new rows; {{ preview.existing_count }} already imported; {{ preview.duplicates }} repeated sheet rows; {{ preview.error_count }} invalid rows.</p>
+<p>Sheets: {{ preview.sheets|join:", " }}</p>
+<div style="overflow-x:auto"><table>
+<thead><tr><th>Sheet / Row</th><th>Original source values (first 25 unique rows)</th><th>Validation</th></tr></thead>
+<tbody>{% for row in preview_rows %}<tr><td>{{ row.sheet }} / {{ row.row }}</td><td>{% for heading,value in row.raw.items %}<div><strong>{{ heading }}:</strong> {{ value|default:"Not recorded" }}</div>{% endfor %}</td><td>{% if row.errors %}{{ row.errors|join:"; " }}{% elif row.exists %}Already imported{% else %}Draft{% endif %}</td></tr>{% endfor %}</tbody>
+</table></div>
+<form method="post">{% csrf_token %}<input type="hidden" name="token" value="{{ token }}"><button type="submit" name="confirm" value="1">Confirm Draft Import</button> <a href="{% url 'admin:formulations_formulation_upload_excel' %}">Cancel</a></form>
+{% else %}
+<form method="post" enctype="multipart/form-data">{% csrf_token %}{{ form.as_p }}<button type="submit">Preview Workbook</button></form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,3130 @@
+openapi: 3.0.3
+info:
+  title: Formulix Scientific Intelligence API
+  version: 1.0.0
+paths:
+  /api/v1/brands/:
+    get:
+      operationId: v1_brands_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedBrandList'
+          description: ''
+    post:
+      operationId: v1_brands_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Brand'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Brand'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Brand'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+  /api/v1/brands/{id}/:
+    get:
+      operationId: v1_brands_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this brand.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+    put:
+      operationId: v1_brands_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this brand.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Brand'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Brand'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Brand'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+    patch:
+      operationId: v1_brands_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this brand.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedBrand'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedBrand'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedBrand'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+    delete:
+      operationId: v1_brands_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this brand.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/brands/{id}/download/:
+    get:
+      operationId: v1_brands_download_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this brand.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+  /api/v1/brands/{id}/transition/:
+    post:
+      operationId: v1_brands_transition_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this brand.
+        required: true
+      - in: query
+        name: target
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Brand'
+          description: ''
+  /api/v1/dashboard/summary/:
+    get:
+      operationId: v1_dashboard_summary_retrieve
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/v1/documents/:
+    get:
+      operationId: v1_documents_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedTechnicalDocumentList'
+          description: ''
+    post:
+      operationId: v1_documents_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TechnicalDocument'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TechnicalDocument'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TechnicalDocument'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechnicalDocument'
+          description: ''
+  /api/v1/documents/{id}/:
+    get:
+      operationId: v1_documents_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this technical document.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechnicalDocument'
+          description: ''
+    put:
+      operationId: v1_documents_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this technical document.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TechnicalDocument'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TechnicalDocument'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TechnicalDocument'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechnicalDocument'
+          description: ''
+    patch:
+      operationId: v1_documents_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this technical document.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTechnicalDocument'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTechnicalDocument'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTechnicalDocument'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechnicalDocument'
+          description: ''
+    delete:
+      operationId: v1_documents_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this technical document.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/documents/{id}/download/:
+    get:
+      operationId: v1_documents_download_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this technical document.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechnicalDocument'
+          description: ''
+  /api/v1/documents/{id}/transition/:
+    post:
+      operationId: v1_documents_transition_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this technical document.
+        required: true
+      - in: query
+        name: target
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TechnicalDocument'
+          description: ''
+  /api/v1/formulations/:
+    get:
+      operationId: v1_formulations_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFormulationList'
+          description: ''
+    post:
+      operationId: v1_formulations_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Formulation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Formulation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Formulation'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Formulation'
+          description: ''
+  /api/v1/formulations/{id}/:
+    get:
+      operationId: v1_formulations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this formulation.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Formulation'
+          description: ''
+    put:
+      operationId: v1_formulations_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this formulation.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Formulation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Formulation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Formulation'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Formulation'
+          description: ''
+    patch:
+      operationId: v1_formulations_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this formulation.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFormulation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFormulation'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFormulation'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Formulation'
+          description: ''
+    delete:
+      operationId: v1_formulations_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this formulation.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/formulations/{id}/download/:
+    get:
+      operationId: v1_formulations_download_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this formulation.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Formulation'
+          description: ''
+  /api/v1/formulations/{id}/transition/:
+    post:
+      operationId: v1_formulations_transition_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this formulation.
+        required: true
+      - in: query
+        name: target
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Formulation'
+          description: ''
+  /api/v1/ingredients/:
+    get:
+      operationId: v1_ingredients_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedIngredientList'
+          description: ''
+    post:
+      operationId: v1_ingredients_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ingredient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ingredient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ingredient'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+          description: ''
+  /api/v1/ingredients/{id}/:
+    get:
+      operationId: v1_ingredients_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ingredient.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+          description: ''
+    put:
+      operationId: v1_ingredients_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ingredient.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ingredient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Ingredient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Ingredient'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+          description: ''
+    patch:
+      operationId: v1_ingredients_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ingredient.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedIngredient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedIngredient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedIngredient'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+          description: ''
+    delete:
+      operationId: v1_ingredients_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ingredient.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/ingredients/{id}/download/:
+    get:
+      operationId: v1_ingredients_download_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ingredient.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+          description: ''
+  /api/v1/ingredients/{id}/transition/:
+    post:
+      operationId: v1_ingredients_transition_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this ingredient.
+        required: true
+      - in: query
+        name: target
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ingredient'
+          description: ''
+  /api/v1/manufacturers/:
+    get:
+      operationId: v1_manufacturers_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedManufacturerList'
+          description: ''
+    post:
+      operationId: v1_manufacturers_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Manufacturer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Manufacturer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Manufacturer'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manufacturer'
+          description: ''
+  /api/v1/manufacturers/{id}/:
+    get:
+      operationId: v1_manufacturers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this manufacturer.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manufacturer'
+          description: ''
+    put:
+      operationId: v1_manufacturers_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this manufacturer.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Manufacturer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Manufacturer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Manufacturer'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manufacturer'
+          description: ''
+    patch:
+      operationId: v1_manufacturers_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this manufacturer.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedManufacturer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedManufacturer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedManufacturer'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manufacturer'
+          description: ''
+    delete:
+      operationId: v1_manufacturers_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this manufacturer.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/manufacturers/{id}/download/:
+    get:
+      operationId: v1_manufacturers_download_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this manufacturer.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manufacturer'
+          description: ''
+  /api/v1/manufacturers/{id}/transition/:
+    post:
+      operationId: v1_manufacturers_transition_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this manufacturer.
+        required: true
+      - in: query
+        name: target
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Manufacturer'
+          description: ''
+  /api/v1/patents/:
+    get:
+      operationId: v1_patents_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPatentList'
+          description: ''
+    post:
+      operationId: v1_patents_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Patent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Patent'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patent'
+          description: ''
+  /api/v1/patents/{id}/:
+    get:
+      operationId: v1_patents_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this patent.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patent'
+          description: ''
+    put:
+      operationId: v1_patents_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this patent.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Patent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Patent'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patent'
+          description: ''
+    patch:
+      operationId: v1_patents_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this patent.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPatent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPatent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPatent'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patent'
+          description: ''
+    delete:
+      operationId: v1_patents_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this patent.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/patents/{id}/download/:
+    get:
+      operationId: v1_patents_download_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this patent.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patent'
+          description: ''
+  /api/v1/patents/{id}/transition/:
+    post:
+      operationId: v1_patents_transition_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this patent.
+        required: true
+      - in: query
+        name: target
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Patent'
+          description: ''
+  /api/v1/products/:
+    get:
+      operationId: v1_products_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCommercialProductList'
+          description: ''
+    post:
+      operationId: v1_products_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommercialProduct'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CommercialProduct'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CommercialProduct'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialProduct'
+          description: ''
+  /api/v1/products/{id}/:
+    get:
+      operationId: v1_products_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this commercial product.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialProduct'
+          description: ''
+    put:
+      operationId: v1_products_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this commercial product.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommercialProduct'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CommercialProduct'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CommercialProduct'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialProduct'
+          description: ''
+    patch:
+      operationId: v1_products_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this commercial product.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCommercialProduct'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCommercialProduct'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCommercialProduct'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialProduct'
+          description: ''
+    delete:
+      operationId: v1_products_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this commercial product.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/products/{id}/download/:
+    get:
+      operationId: v1_products_download_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this commercial product.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialProduct'
+          description: ''
+  /api/v1/products/{id}/transition/:
+    post:
+      operationId: v1_products_transition_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this commercial product.
+        required: true
+      - in: query
+        name: target
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommercialProduct'
+          description: ''
+  /api/v1/regulatory/registrations/:
+    get:
+      operationId: v1_regulatory_registrations_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedRegulatoryRegistrationList'
+          description: ''
+    post:
+      operationId: v1_regulatory_registrations_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegulatoryRegistration'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegulatoryRegistration'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegulatoryRegistration'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryRegistration'
+          description: ''
+  /api/v1/regulatory/registrations/{id}/:
+    get:
+      operationId: v1_regulatory_registrations_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this regulatory registration.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryRegistration'
+          description: ''
+    put:
+      operationId: v1_regulatory_registrations_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this regulatory registration.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegulatoryRegistration'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RegulatoryRegistration'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RegulatoryRegistration'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryRegistration'
+          description: ''
+    patch:
+      operationId: v1_regulatory_registrations_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this regulatory registration.
+        required: true
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRegulatoryRegistration'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRegulatoryRegistration'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRegulatoryRegistration'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryRegistration'
+          description: ''
+    delete:
+      operationId: v1_regulatory_registrations_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this regulatory registration.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/v1/regulatory/registrations/{id}/download/:
+    get:
+      operationId: v1_regulatory_registrations_download_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this regulatory registration.
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryRegistration'
+          description: ''
+  /api/v1/regulatory/registrations/{id}/transition/:
+    post:
+      operationId: v1_regulatory_registrations_transition_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this regulatory registration.
+        required: true
+      - in: query
+        name: target
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegulatoryRegistration'
+          description: ''
+  /api/v1/vocabularies/:
+    get:
+      operationId: v1_vocabularies_retrieve
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    Brand:
+      type: object
+      properties:
+        brandName:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        trademarkStatus:
+          type: string
+          maxLength: 100
+        manufacturerId:
+          type: string
+        ownerId:
+          type: string
+        country:
+          type: string
+        category:
+          type: string
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+      required:
+      - brandName
+      - createdAt
+      - publishStatus
+      - serverId
+      - updatedAt
+      - verificationState
+      - version
+    CommercialProduct:
+      type: object
+      properties:
+        brandName:
+          type: string
+          maxLength: 300
+        genericName:
+          type: string
+          maxLength: 300
+        activeIngredient:
+          type: string
+        casNumber:
+          type: string
+          maxLength: 200
+        manufacturerName:
+          type: string
+          maxLength: 300
+        formulationType:
+          type: string
+          maxLength: 300
+        strength:
+          type: string
+          maxLength: 300
+        registrationStatus:
+          type: string
+          maxLength: 50
+        registrationNumber:
+          type: string
+          maxLength: 200
+        regulatoryAuthority:
+          type: string
+          maxLength: 300
+        dataSource:
+          type: string
+        lastVerifiedDate:
+          type: string
+          maxLength: 100
+        verificationEvidence:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        indicationsOrPests: {}
+        specs: {}
+        manufacturerId:
+          type: string
+        formulationId:
+          type: string
+        brandId:
+          type: string
+        category:
+          type: string
+        country:
+          type: string
+        composition: {}
+        patentIds: {}
+        documentIds: {}
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+      required:
+      - brandName
+      - createdAt
+      - publishStatus
+      - serverId
+      - updatedAt
+      - verificationState
+      - version
+    Formulation:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 300
+        formulationType:
+          type: string
+          maxLength: 300
+        intendedApplication:
+          type: string
+        targetIndustry:
+          type: string
+          maxLength: 300
+        verificationStatus:
+          type: string
+          maxLength: 100
+        verificationEvidence:
+          type: string
+          maxLength: 100
+        sourceReference:
+          type: string
+        category:
+          type: string
+        composition: {}
+        manufacturingInfo: {}
+        properties: {}
+        patentReferences: {}
+        commercialProductIds: {}
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+      required:
+      - createdAt
+      - name
+      - publishStatus
+      - serverId
+      - updatedAt
+      - verificationState
+      - version
+    Ingredient:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 300
+        casNumber:
+          type: string
+          nullable: true
+          maxLength: 20
+        iupacName:
+          type: string
+        molecularFormula:
+          type: string
+          maxLength: 200
+        molecularWeight:
+          type: number
+          format: double
+          maximum: 10000000000
+          minimum: -10000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        smiles:
+          type: string
+        inchiKey:
+          type: string
+          maxLength: 100
+        category:
+          type: string
+          maxLength: 200
+        physicalState:
+          type: string
+          maxLength: 300
+        meltingPoint:
+          type: string
+          maxLength: 300
+        boilingPoint:
+          type: string
+          maxLength: 300
+        waterSolubility:
+          type: string
+        logP:
+          type: number
+          format: double
+          maximum: 1000000
+          minimum: -1000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        hazardStatements: {}
+        commercialProductCount:
+          type: integer
+          minimum: 0
+          nullable: true
+        description:
+          type: string
+        structureSvgType:
+          type: string
+          maxLength: 30
+        relatedProductIds: {}
+        relatedManufacturers: {}
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+      required:
+      - createdAt
+      - name
+      - publishStatus
+      - serverId
+      - updatedAt
+      - verificationState
+      - version
+    Manufacturer:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 300
+        headquarters:
+          type: string
+          maxLength: 300
+        founded:
+          type: integer
+          minimum: 0
+          nullable: true
+        sector: {}
+        productCategories: {}
+        productCount:
+          type: integer
+          minimum: 0
+          nullable: true
+        website:
+          type: string
+          maxLength: 2000
+        brandPortfolio: {}
+        role:
+          type: string
+          maxLength: 100
+        overview:
+          type: string
+        complianceCertifications: {}
+        country:
+          type: string
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+      required:
+      - createdAt
+      - name
+      - publishStatus
+      - serverId
+      - updatedAt
+      - verificationState
+      - version
+    PaginatedBrandList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Brand'
+    PaginatedCommercialProductList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CommercialProduct'
+    PaginatedFormulationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Formulation'
+    PaginatedIngredientList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
+    PaginatedManufacturerList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Manufacturer'
+    PaginatedPatentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Patent'
+    PaginatedRegulatoryRegistrationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RegulatoryRegistration'
+    PaginatedTechnicalDocumentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TechnicalDocument'
+    PatchedBrand:
+      type: object
+      properties:
+        brandName:
+          type: string
+          maxLength: 200
+        description:
+          type: string
+        trademarkStatus:
+          type: string
+          maxLength: 100
+        manufacturerId:
+          type: string
+        ownerId:
+          type: string
+        country:
+          type: string
+        category:
+          type: string
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+    PatchedCommercialProduct:
+      type: object
+      properties:
+        brandName:
+          type: string
+          maxLength: 300
+        genericName:
+          type: string
+          maxLength: 300
+        activeIngredient:
+          type: string
+        casNumber:
+          type: string
+          maxLength: 200
+        manufacturerName:
+          type: string
+          maxLength: 300
+        formulationType:
+          type: string
+          maxLength: 300
+        strength:
+          type: string
+          maxLength: 300
+        registrationStatus:
+          type: string
+          maxLength: 50
+        registrationNumber:
+          type: string
+          maxLength: 200
+        regulatoryAuthority:
+          type: string
+          maxLength: 300
+        dataSource:
+          type: string
+        lastVerifiedDate:
+          type: string
+          maxLength: 100
+        verificationEvidence:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+        indicationsOrPests: {}
+        specs: {}
+        manufacturerId:
+          type: string
+        formulationId:
+          type: string
+        brandId:
+          type: string
+        category:
+          type: string
+        country:
+          type: string
+        composition: {}
+        patentIds: {}
+        documentIds: {}
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+    PatchedFormulation:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 300
+        formulationType:
+          type: string
+          maxLength: 300
+        intendedApplication:
+          type: string
+        targetIndustry:
+          type: string
+          maxLength: 300
+        verificationStatus:
+          type: string
+          maxLength: 100
+        verificationEvidence:
+          type: string
+          maxLength: 100
+        sourceReference:
+          type: string
+        category:
+          type: string
+        composition: {}
+        manufacturingInfo: {}
+        properties: {}
+        patentReferences: {}
+        commercialProductIds: {}
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+    PatchedIngredient:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 300
+        casNumber:
+          type: string
+          nullable: true
+          maxLength: 20
+        iupacName:
+          type: string
+        molecularFormula:
+          type: string
+          maxLength: 200
+        molecularWeight:
+          type: number
+          format: double
+          maximum: 10000000000
+          minimum: -10000000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        smiles:
+          type: string
+        inchiKey:
+          type: string
+          maxLength: 100
+        category:
+          type: string
+          maxLength: 200
+        physicalState:
+          type: string
+          maxLength: 300
+        meltingPoint:
+          type: string
+          maxLength: 300
+        boilingPoint:
+          type: string
+          maxLength: 300
+        waterSolubility:
+          type: string
+        logP:
+          type: number
+          format: double
+          maximum: 1000000
+          minimum: -1000000
+          exclusiveMaximum: true
+          exclusiveMinimum: true
+          nullable: true
+        hazardStatements: {}
+        commercialProductCount:
+          type: integer
+          minimum: 0
+          nullable: true
+        description:
+          type: string
+        structureSvgType:
+          type: string
+          maxLength: 30
+        relatedProductIds: {}
+        relatedManufacturers: {}
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+    PatchedManufacturer:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 300
+        headquarters:
+          type: string
+          maxLength: 300
+        founded:
+          type: integer
+          minimum: 0
+          nullable: true
+        sector: {}
+        productCategories: {}
+        productCount:
+          type: integer
+          minimum: 0
+          nullable: true
+        website:
+          type: string
+          maxLength: 2000
+        brandPortfolio: {}
+        role:
+          type: string
+          maxLength: 100
+        overview:
+          type: string
+        complianceCertifications: {}
+        country:
+          type: string
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+    PatchedPatent:
+      type: object
+      properties:
+        publicationNumber:
+          type: string
+          maxLength: 200
+        applicationNumber:
+          type: string
+          maxLength: 200
+        title:
+          type: string
+          maxLength: 500
+        abstract:
+          type: string
+        applicant:
+          type: string
+          maxLength: 300
+        inventors: {}
+        patentStatus:
+          type: string
+          maxLength: 100
+        sourceUrl:
+          type: string
+          maxLength: 2000
+        country:
+          type: string
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+    PatchedRegulatoryRegistration:
+      type: object
+      properties:
+        registrationNumber:
+          type: string
+          maxLength: 200
+        productName:
+          type: string
+          maxLength: 300
+        activeIngredient:
+          type: string
+        approvalStatus:
+          type: string
+          maxLength: 50
+        registrationHolder:
+          type: string
+          maxLength: 300
+        approvalDate:
+          type: string
+          maxLength: 100
+        expiryDate:
+          type: string
+          maxLength: 100
+        sourceDocument:
+          type: string
+        lastVerifiedDate:
+          type: string
+          maxLength: 100
+        officialLink:
+          type: string
+          maxLength: 2000
+        productId:
+          type: string
+        regulatoryAuthority:
+          type: string
+        country:
+          type: string
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+    PatchedTechnicalDocument:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 500
+        type:
+          type: string
+          maxLength: 100
+        documentNumber:
+          type: string
+          maxLength: 200
+        issuer:
+          type: string
+          maxLength: 300
+        publicationDate:
+          type: string
+          maxLength: 100
+        format:
+          type: string
+          maxLength: 30
+        fileSize:
+          type: string
+          maxLength: 100
+        summary:
+          type: string
+        sourceUrl:
+          type: string
+          maxLength: 2000
+        verifiedStatus:
+          type: string
+          maxLength: 100
+        relatedProducts: {}
+        relatedIngredients: {}
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        file:
+          type: string
+          format: uri
+          writeOnly: true
+        isRestricted:
+          type: boolean
+        hasFile:
+          type: boolean
+          readOnly: true
+        downloadUrl:
+          type: string
+          readOnly: true
+          nullable: true
+    Patent:
+      type: object
+      properties:
+        publicationNumber:
+          type: string
+          maxLength: 200
+        applicationNumber:
+          type: string
+          maxLength: 200
+        title:
+          type: string
+          maxLength: 500
+        abstract:
+          type: string
+        applicant:
+          type: string
+          maxLength: 300
+        inventors: {}
+        patentStatus:
+          type: string
+          maxLength: 100
+        sourceUrl:
+          type: string
+          maxLength: 2000
+        country:
+          type: string
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+      required:
+      - createdAt
+      - publicationNumber
+      - publishStatus
+      - serverId
+      - title
+      - updatedAt
+      - verificationState
+      - version
+    RegulatoryRegistration:
+      type: object
+      properties:
+        registrationNumber:
+          type: string
+          maxLength: 200
+        productName:
+          type: string
+          maxLength: 300
+        activeIngredient:
+          type: string
+        approvalStatus:
+          type: string
+          maxLength: 50
+        registrationHolder:
+          type: string
+          maxLength: 300
+        approvalDate:
+          type: string
+          maxLength: 100
+        expiryDate:
+          type: string
+          maxLength: 100
+        sourceDocument:
+          type: string
+        lastVerifiedDate:
+          type: string
+          maxLength: 100
+        officialLink:
+          type: string
+          maxLength: 2000
+        productId:
+          type: string
+        regulatoryAuthority:
+          type: string
+        country:
+          type: string
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+      required:
+      - createdAt
+      - publishStatus
+      - registrationNumber
+      - serverId
+      - updatedAt
+      - verificationState
+      - version
+    TechnicalDocument:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 500
+        type:
+          type: string
+          maxLength: 100
+        documentNumber:
+          type: string
+          maxLength: 200
+        issuer:
+          type: string
+          maxLength: 300
+        publicationDate:
+          type: string
+          maxLength: 100
+        format:
+          type: string
+          maxLength: 30
+        fileSize:
+          type: string
+          maxLength: 100
+        summary:
+          type: string
+        sourceUrl:
+          type: string
+          maxLength: 2000
+        verifiedStatus:
+          type: string
+          maxLength: 100
+        relatedProducts: {}
+        relatedIngredients: {}
+        id:
+          type: string
+        serverId:
+          type: string
+          format: uuid
+          readOnly: true
+        publishStatus:
+          type: string
+          readOnly: true
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        version:
+          type: integer
+          readOnly: true
+        isSyntheticDemo:
+          type: boolean
+        verificationState:
+          type: string
+          readOnly: true
+        sourceTitle:
+          type: string
+        sourceType:
+          type: string
+        file:
+          type: string
+          format: uri
+          writeOnly: true
+        isRestricted:
+          type: boolean
+        hasFile:
+          type: boolean
+          readOnly: true
+        downloadUrl:
+          type: string
+          readOnly: true
+          nullable: true
+      required:
+      - createdAt
+      - downloadUrl
+      - hasFile
+      - publishStatus
+      - serverId
+      - title
+      - type
+      - updatedAt
+      - verificationState
+      - version
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

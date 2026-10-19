@@ -1,0 +1,14 @@
+{% extends "admin/index.html" %}
+{% block content %}
+<div class="module">
+  <h2>Formulix API</h2>
+  <table>
+    <tbody>
+      <tr><th scope="row"><a href="/api/v1/">API Browser</a></th></tr>
+      <tr><th scope="row"><a href="/api/docs/">OpenAPI Documentation</a></th></tr>
+      <tr><th scope="row"><a href="/api/redoc/">ReDoc</a></th></tr>
+    </tbody>
+  </table>
+</div>
+{{ block.super }}
+{% endblock %}

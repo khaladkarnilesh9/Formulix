@@ -1,0 +1,6 @@
+{
+  "name": "Formulix — Formulation & Commercial Product Intelligence",
+  "description": "Enterprise-grade B2B scientific intelligence platform for agrochemical, pharmaceutical, and industrial chemical formulations and commercial products.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

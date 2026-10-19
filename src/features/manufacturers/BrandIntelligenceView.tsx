@@ -1,0 +1,1 @@
+export {BrandIntelligenceView} from './BrandReferenceView';
